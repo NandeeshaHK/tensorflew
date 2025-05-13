@@ -128,7 +128,7 @@ for i in range(len(X)):
 # Calculate accuracy
 acc = accuracy_score(y, y_pred)
 print("\nAccuracy: {:.2f}%".format(acc * 100))'''
-dl4 = '''
+dl4 = r'''
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -287,3 +287,33 @@ for i in range(5):
     plt.axis('off')
 plt.tight_layout()
 plt.show()'''
+
+import inspect
+import pyperclip
+
+def kerass(var_name: str) -> None:
+    frame = inspect.currentframe()
+    try:
+        caller_frame = frame.f_back
+        globals_dict = caller_frame.f_globals
+        code = globals_dict.get(var_name)
+        if code is None:
+            raise ValueError(f"Variable '{var_name}' not found in the caller's globals.")
+        
+        pyperclip.copy(code)
+        print(f"{code}")
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        del frame
+        del caller_frame
+    # print("Code copied to clipboard.")
+
+if __name__ == "__main__":
+    kerass('dl1')
+    kerass('dl2')
+    kerass('dl3')
+    kerass('dl4')
+    kerass('dl5')
+    kerass('dl6')
+    kerass('dl7')
